@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-REPO_DIR = "$HOME/repos"
+REPO_DIR="$HOME/repos"
 if [ "$(id -u)" != "0" ]; then
    echo "This script must be run as root" 1>&2
    exit 1
@@ -8,15 +8,16 @@ fi
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
     if command -v yum 1>/dev/null; then
-        sudo yum update && sudo yum -y install zsh tmux python3
+        yum update && yum -y install zsh tmux python3
         git clone https://github.com/vim/vim.git $REPO_DIR
         cd $REPO_DIR/vim
         make -j8
-        sudo make install
+        make install
         cp src/vim /usr/bin
     else
-        sudo add-apt-repository ppa:jonathonf/vim
-        sudo apt update && sudo apt install zsh vim python3 tmux
+        apt update && apt install software-properties-common
+        add-apt-repository ppa:jonathonf/vim
+        apt update && apt install zsh vim python3 tmux
     fi
 elif [[ "$OSTYPE" == "darwin"* ]]; then
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"  # install brew
