@@ -1,23 +1,25 @@
 #!/usr/bin/env bash
 
 REPO_DIR="$HOME/repos"
-if [ "$(id -u)" != "0" ]; then
-   echo "This script must be run as root" 1>&2
-   exit 1
-fi
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+# if [ "$(id -u)" != "0" ]; then
+#    echo "This script must be run as root" 1>&2
+#    exit 1
+# fi
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
     if command -v yum 1>/dev/null; then
-        yum update && yum -y install zsh tmux python3
+        sudo yum update && sudo yum -y install zsh tmux python3
         git clone https://github.com/vim/vim.git $REPO_DIR
         cd $REPO_DIR/vim
         make -j8
-        make install
+        sudo make install
         cp src/vim /usr/bin
     else
-        apt update && apt install software-properties-common
-        add-apt-repository ppa:jonathonf/vim
-        apt update && apt install zsh vim python3 tmux
+        sudo apt update && sudo apt install software-properties-common
+        sudo add-apt-repository ppa:jonathonf/vim
+        sudo apt update && sudo apt install zsh vim python3 tmux
     fi
 elif [[ "$OSTYPE" == "darwin"* ]]; then
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"  # install brew
@@ -33,14 +35,14 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/mas
 ## scd
 cd $HOME
 mkdir -p $REPO_DIR
-git clone https://github.com/pavoljuhas/smart-change-directory.git $REPO_DIR
-cp $REPO_DIR/smart-change-directory/bin/scd /usr/local/bin
-chmod +x /usr/local/bin/scd
+git clone https://github.com/pavoljuhas/smart-change-directory.git $REPO_DIR/smart-change-directory
+sudo cp $REPO_DIR/smart-change-directory/bin/scd /usr/local/bin
+sudo chmod +x /usr/local/bin/scd
 echo "source $REPO_DIR/smart-change-directory/shellrcfiles/zshrc_scd" >> $HOME/.zshrc
 
 ## Zsh autosuggestion
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-sed -i -E "s/plugins=\(([~\)]+)\)/plugins=\(\1 zsh-autosuggestions\)" $HOME/.zshrc
+sed -i -E "s/plugins=\((.+)\)/plugins=\(\1 zsh-autosuggestions\)/g" $HOME/.zshrc
 
 ## Ultimate vimrc
 git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
@@ -53,5 +55,18 @@ ln -s -f .tmux/.tmux.conf
 cp .tmux/.tmux.conf.local .
 
 ## Git alias 
-cd "$(dirname "$0")"
-cp gitconfig $HOME/.gitconfig
+cd $DIR
+cp ./gitalias.txt $HOME/gitalias.txt
+cp ./gitconfig $HOME/.gitconfig
+git config --global core.editor "vim"
+
+## shell alias
+echo "alias g=\"git\"" >> $HOME/.zshrc
+echo "alias gs=\"git status\"" >> $HOME/.zshrc
+echo "alias st=\"git status\"" >> $HOME/.zshrc
+echo "alias pull=\"git pull\"" >> $HOME/.zshrc
+echo "alias am=\"git ca\"" >> $HOME/.zshrc
+echo "alias co=\"git checkout\"" >> $HOME/.zshrc
+echo "alias gl=\"git lg\"" >> $HOME/.zshrc
+echo "alias cm=\"git commit\"" >> $HOME/.zshrc
+echo "alias push=\"git push -u origin HEAD\"" >> $HOME/.zshrc
