@@ -54,6 +54,10 @@ git clone https://github.com/gpakosz/.tmux.git
 ln -s -f .tmux/.tmux.conf
 cp .tmux/.tmux.conf.local .
 
+## fzf
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
+
 ## Git alias
 cd $DIR
 cp ./gitalias.txt $HOME/gitalias.txt
