@@ -19,7 +19,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
     else
         sudo apt update && sudo apt install software-properties-common
         sudo add-apt-repository ppa:jonathonf/vim
-        sudo apt update && sudo apt install zsh vim python3 tmux
+        sudo apt update && sudo apt install zsh vim python3 tmux fzf
     fi
 elif [[ "$OSTYPE" == "darwin"* ]]; then
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"  # install brew
@@ -54,7 +54,7 @@ git clone https://github.com/gpakosz/.tmux.git
 ln -s -f .tmux/.tmux.conf
 cp .tmux/.tmux.conf.local .
 
-## Git alias 
+## Git alias
 cd $DIR
 cp ./gitalias.txt $HOME/gitalias.txt
 cp ./gitconfig $HOME/.gitconfig
