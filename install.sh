@@ -74,3 +74,13 @@ echo "alias co=\"git checkout\"" >> $HOME/.zshrc
 echo "alias gl=\"git lg\"" >> $HOME/.zshrc
 echo "alias cm=\"git commit\"" >> $HOME/.zshrc
 echo "alias push=\"git push -u origin HEAD\"" >> $HOME/.zshrc
+echo "alias cc=\"git diff master..HEAD\"" >> $HOME/.zshrc
+echo "alias cf=\"git diff master..HEAD --name-only\"" >> $HOME/.zshrc
+echo "alias bd=\"git branch -D\"" >> $HOME/.zshrc
+echo "alias cob=\"git checkout -b\"" >> $HOME/.zshrc
+
+## git open and git recent
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+nvm install stable
+npm install --global git-open
+npm install --global git-recent
